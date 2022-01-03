@@ -94,5 +94,4 @@ let getSentence =
 let getParagraphs n = 
     if n <= 0 then failwith "n should be a positive number, more than zero."
     seq { for _ in 1..n -> getSentence () }
-    |> List.ofSeq 
     |> String.concat ". "
