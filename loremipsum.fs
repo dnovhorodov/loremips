@@ -9,7 +9,7 @@ let loremipsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed d
 type CapitalizeMode =
     | OnlyFirst
     | All
-    | None
+    | Lowercase
 
 type WordCount = 
     | Arbitrary of min:int * max:int
@@ -79,19 +79,25 @@ let getWords option =
         | [] -> []
         | x::xs -> (upper x) :: xs
     | (All, Arbitrary (min, max)) -> getWordsUtil [] (getRandom (min, max)) |> List.map upper
-    | (None, Arbitrary (min, max)) -> getWordsUtil [] (getRandom (min, max))
+    | (Lowercase, Arbitrary (min, max)) -> getWordsUtil [] (getRandom (min, max))
     | (OnlyFirst, Exact count) -> 
         getWordsUtil [] count
         |> function
         | [] -> []
         | x::xs -> (upper x) :: xs
     | (All, Exact count) -> getWordsUtil [] count |> List.map upper
-    | (None, Exact count) -> getWordsUtil [] count
+    | (Lowercase, Exact count) -> getWordsUtil [] count
 
 let getSentence = 
     fun () -> getWords { Capitalize = OnlyFirst; Count = Arbitrary (5, 20) } |> String.concat " "
 
-let getParagraphs n = 
-    if n <= 0 then failwith "n should be a positive number, more than zero."
+let getSentences n = 
+    if n <= 0 then failwith $"{nameof(n)} should be a positive number, more than zero."
     seq { for _ in 1..n -> getSentence () }
     |> String.concat ". "
+
+let getParagraphs n = 
+    if n <= 0 then failwith $"{nameof(n)} should be a positive number, more than zero."
+    let rnd = Random()
+    seq { for _ in 1..n -> getSentences (rnd.Next (3,6)) }
+    |> String.concat ("." + Environment.NewLine)
