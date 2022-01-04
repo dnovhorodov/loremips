@@ -72,19 +72,16 @@ let getWords option =
         | 0 -> acc
         | _ -> getWordsUtil (getRandomLoremIpsum()::acc) (n - 1)
     
-    match (option.Capitalize, option.Count) with
-    | (OnlyFirst, Arbitrary (min, max)) -> 
-        getWordsUtil [] (getRandom (min, max))
-        |> function
+    let firstToUpper str =
+        match str with
         | [] -> []
         | x::xs -> (upper x) :: xs
+
+    match (option.Capitalize, option.Count) with
+    | (OnlyFirst, Arbitrary (min, max)) -> getWordsUtil [] (getRandom (min, max)) |> firstToUpper
     | (All, Arbitrary (min, max)) -> getWordsUtil [] (getRandom (min, max)) |> List.map upper
     | (Lowercase, Arbitrary (min, max)) -> getWordsUtil [] (getRandom (min, max))
-    | (OnlyFirst, Exact count) -> 
-        getWordsUtil [] count
-        |> function
-        | [] -> []
-        | x::xs -> (upper x) :: xs
+    | (OnlyFirst, Exact count) -> getWordsUtil [] count |> firstToUpper        
     | (All, Exact count) -> getWordsUtil [] count |> List.map upper
     | (Lowercase, Exact count) -> getWordsUtil [] count
 
