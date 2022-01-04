@@ -4,7 +4,6 @@ In publishing and graphic design, Lorem ipsum is a placeholder text commonly use
 ## Usage: 
 
 ### Generate exactly 10 words: </br>
-
 `getWords { Capitalize = Lowercase; Count = Exact 10 }`
 
 Sample output:
@@ -33,6 +32,7 @@ Sample output:
 
 ### Generate 5 sentences with random phrases: </br>
 `getSentences 5`
+
 Sample output:
 > "Ut laborum consectetur proident sunt ut tempor anim deserunt laboris tempor sit in sunt excepteur et. Eiusmod veniam fugiat ea proident excepteur magna sed anim. Ut ex nostrud laborum ullamco ex. Pariatur nulla eu eu tempor aliquip eu do deserunt nostrud amet ut dolore cupidatat. Dolor eiusmod consectetur eu consequat sunt"
 
