@@ -1,4 +1,4 @@
-#load "loremipsum.fs"
+#load "./lib/loremipsum.fs"
 open LoremIpsum
 
 getWords { Capitalize = Lowercase; Count = Exact 10 }
