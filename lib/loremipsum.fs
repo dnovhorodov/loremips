@@ -44,7 +44,7 @@ let private getRandom (min, max) =
         (min, max) |> rnd.Next
 
     let newMin = if min <= 0 then 1 else min
-    let newMax = if max < min then min else max
+    let newMax = if max < newMin then newMin else max
     getRandomUtil (newMin, newMax)
 
 let private stringToCase fn (str: string) =

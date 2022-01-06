@@ -25,7 +25,7 @@ let ``getWords with capitalize set to OnlyFirst should return only first word ca
     )
 
 [<Fact>]
-let ``getWords with Exact should return exact amount of words`` () =
+let ``getWords with Exact amount should return exact amount of words`` () =
     let words = getWords { Capitalize = Lowercase; Count = Exact 10 }
     Assert.Equal(words.Length, 10)
 
@@ -34,9 +34,14 @@ let ``getWords with Exact should return exact amount of words`` () =
 [<InlineData(3,5)>]
 [<InlineData(5,10)>]
 [<InlineData(8,8)>]
-let ``getWords with Arbitrary should return amount of words in the range`` (min, max) =
+let ``getWords with Arbitrary amount should return amount of words in the range`` (min, max) =
     let words = getWords { Capitalize = Lowercase; Count = Arbitrary (min,max) }
     Assert.InRange(words.Length, min, max)
+
+[<Fact>]
+let ``getWords with negative Arbitrary amounts should return 1 word`` () =
+    let words = getWords { Capitalize = Lowercase; Count = Arbitrary (-5,-1) }
+    Assert.Equal(1, words.Length)
 
 [<Fact>]
 let ``getSentence should return words in the range between 5 and 20`` () =
@@ -49,6 +54,10 @@ let ``getSentence should return first word capitalized`` () =
     let sentence = getSentence ()
     Assert.True(Char.IsUpper(sentence.[0]))
 
+[<Fact>]
+let ``getSentences should fail with error when n is negative number`` () =
+    Assert.Throws<Exception>((fun () -> getSentences -10 |> ignore))
+
 [<Theory>]
 [<InlineData(1)>]
 [<InlineData(2)>]
@@ -58,6 +67,10 @@ let ``getSentences should return exact amount of sentences separated by period``
     let sentences = getSentences n
     let actual = sentences.Split([|"."|], StringSplitOptions.RemoveEmptyEntries)
     Assert.Equal(actual.Length, n)
+
+[<Fact>]
+let ``getParagraphs should fail with error when n is negative number`` () =
+    Assert.Throws<Exception>((fun () -> getParagraphs -10 |> ignore))
 
 [<Theory>]
 [<InlineData(1)>]
